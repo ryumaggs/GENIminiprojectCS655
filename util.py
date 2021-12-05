@@ -7,13 +7,15 @@ Where each char in the string can be between A - z (lower case)
 
 '''
 import hashlib
-def create_batch(start_str, arr, capitalized, NUM_JOBS_IN_BATCH):
-	cur_str = start_str
-	for i in range(NUM_JOBS_IN_BATCH):
-		end_str = shift(cur_str, 300, capitalized)
-		arr.append((cur_str, end_str))
-		cur_str = end_str
-	return cur_str
+def create_batch(start_str, arr, arr_status, capitalized, NUM_JOBS_IN_BATCH):
+    cur_str = start_str
+    for i in range(NUM_JOBS_IN_BATCH):
+        end_str = shift(cur_str, 300, capitalized)
+        arr.append((cur_str, end_str))
+        cur_str = shift(end_str,1, capitalized)
+        arr_status.append(-1)
+    return cur_str
+
 
 def checkrange(starting, ending, correct_hash, capitalized):
     cur_str = starting
@@ -25,7 +27,7 @@ def checkrange(starting, ending, correct_hash, capitalized):
         cur_str = increment(cur_str, capitalized)
         if cur_str == ending:
             break
-    return False, None
+    return False, ""
 
 
 def increment(cur_str, capitalized):
