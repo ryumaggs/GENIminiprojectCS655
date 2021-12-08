@@ -11,28 +11,35 @@ import time
 from util import create_batch, checkrange, increment, shift
 import select
 
-#global variables
-MAX_WORKERS = 4
-NUM_WORKERS = 0
-NUM_JOBS_IN_BATCH = 1000
-WORKER_TRACKER = {}
-WEBSERVER_HOST = '127.0.0.1'
-WEBSERVER_PORT = 59999
-HOST = ['127.0.0.1','127.0.0.1', '127.0.0.1', '127.0.0.1']  # The server's hostname or IP address
-PORT = [60000,60001, 60002, 60003]       # The port used by the server
-GLOBAL_STARTING = "AAAA"
-GLOBAL_ENDING = "zzzz"
-GLOBAL_SOLUTION = None
+def solve():
+	#variables that need to be set: int
+	NUM_WORKERS = 0
 
-test_order = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-capitalized = [x.capitalize() for x in test_order]
-capitalized.extend(test_order)
+	#str: the md5 hash that needs to be solved
+	GLOBAL_SOLUTION = None 
 
-WEBSERVER_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-WEBSERVER_s.connect((WEBSERVER_HOST, WEBSERVER_PORT))
+	#global variables
+	worker_txt_path = "./num_worker.txt"
+	MAX_WORKERS = 4
+	NUM_JOBS_IN_BATCH = 1000
+	WORKER_TRACKER = {}
+	WEBSERVER_HOST = '127.0.0.1'
+	WEBSERVER_PORT = 59999
+	HOST = ['127.0.0.1','127.0.0.1', '127.0.0.1', '127.0.0.1']  # The server's hostname or IP address
+	PORT = [60000,60001, 60002, 60003]       # The port used by the server
+	GLOBAL_STARTING = "AAAAA"
+	GLOBAL_ENDING = "ZZZZZ"
 
-#begin loop here: 
-while True:
+	test_order = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+	capitalized = [x.capitalize() for x in test_order]
+	capitalized.extend(test_order)
+
+	#self.WEBSERVER_s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	#self.WEBSERVER_s.connect((WEBSERVER_HOST, WEBSERVER_PORT))
+
+
+	#begin loop here: 
+	'''
 	while True:
 		dat = WEBSERVER_s.recv(1024).decode("utf-8")
 		dat_split = dat.split(",")
@@ -42,6 +49,8 @@ while True:
 			GLOBAL_SOLUTION = dat_split[2]
 			break
 	WEBSERVER_s.sendall(bytes("setup complete","utf-8"))
+	'''
+
 	cur_batch = []
 	cur_batch_status = []
 	cur_batch_pointer = 0
@@ -83,6 +92,14 @@ while True:
 	##loop through workers
 	while(True):
 		#check if number of workers changed
+
+		#check textfile here
+		i_file = open("./num_worker.txt",'r')
+		line = i_file.readline()
+		NUM_WORKERS = int(line)
+		i_file.close()
+
+
 		ready = select.select([WEBSERVER_s], [], [], 0.000001)
 		if ready[0]:
 			dat = WEBSERVER_s.recv(1028)
@@ -129,3 +146,5 @@ while True:
 	for i in range(NUM_WORKERS):
 		WORKER_TRACKER[i].sendall(bytes("tt","utf-8"))
 	#inf loop, loop over
+
+solve()
