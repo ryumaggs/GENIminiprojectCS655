@@ -24,7 +24,7 @@ s.bind((HOST, PORT))
 
 while True:
     print("Waiting for connection....")
-    s.settimeout(10)
+    s.settimeout(30) #added this bc on windows the timeout is indefinite and blocking
     s.listen(1)
     conn, addr = s.accept()
     print('Connected to :', addr[0], ':', addr[1])
