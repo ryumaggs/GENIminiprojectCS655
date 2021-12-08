@@ -67,6 +67,7 @@ def solve():
 	cur_str = create_batch(GLOBAL_STARTING, cur_batch, cur_batch_status, capitalized, NUM_JOBS_IN_BATCH)
 	cur_batch_pointer = 0
 
+	start = time.time()
 	#connection setup
 	for i in range(MAX_WORKERS):
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -145,4 +146,6 @@ def solve():
 	#close connections once answer is found
 	for i in range(NUM_WORKERS):
 		WORKER_TRACKER[i].sendall(bytes("tt","utf-8"))
+	stop = time.time()
+	print(stop - start)
 	#inf loop, loop over
