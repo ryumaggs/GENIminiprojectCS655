@@ -146,5 +146,3 @@ def solve():
 	for i in range(NUM_WORKERS):
 		WORKER_TRACKER[i].sendall(bytes("tt","utf-8"))
 	#inf loop, loop over
-
-solve()
