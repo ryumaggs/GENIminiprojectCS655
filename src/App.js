@@ -10,12 +10,41 @@ class App extends Component {
     super(props);
     this.state = {
       hashValue: '',
-      nodeValue: ''
+      nodeValue: '',
+      currentTime: 0
     }
 
     this.handleHashChange = this.handleHashChange.bind(this);
     this.handleNodeChange = this.handleNodeChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  setCurrentTime(time) {
+    this.setState({currentTime: time})
+  }
+
+  useEffect() {
+    fetch('/time').then(res => res.json()).then(data => {
+      this.setCurrentTime(data.time);
+    });
+  };
+
+  InsertArticle(body){
+    return fetch(`http://localhost:3000/time`,{
+        'method':'POST',
+         headers : {
+        'Content-Type':'application/json'
+    },
+    body:JSON.stringify(body)
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error))
+  }
+
+  insertArticle(hash, num) {
+    this.InsertArticle({hash,num})
+    // .then((response) => props.insertedArticle(response))
+    // .catch(error => console.log('error',error))
   }
 
   handleHashChange(event) {
@@ -41,6 +70,10 @@ class App extends Component {
       alert('> this is where i would send this tuple to master server: ' + [this.state.hashValue, this.state.nodeValue]);
       event.preventDefault();
     }
+
+    this.insertArticle(this.state.hashValue, this.state.nodeValue);
+
+    this.useEffect();
   }
 
   render() {
@@ -73,6 +106,7 @@ class App extends Component {
               </label>
               <input type="submit" value="Submit" />
             </form>
+            <p>The current time is {this.state.currentTime}.</p>
           </div>
         </header>
       </div>
