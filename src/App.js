@@ -24,11 +24,11 @@ class App extends Component {
     this.setState({currentTime: time})
   }
 
-  useEffect() {
-    fetch('/time').then(res => res.json()).then(data => {
-      this.setCurrentTime(data.time);
-    });
-  };
+  // useEffect() {
+  //   fetch('/time').then(res => res.json()).then(data => {
+  //     this.setCurrentTime(data.time);
+  //   });
+  // };
 
   InsertArticle(body){
     return fetch(`http://localhost:3000/time`,{
@@ -39,6 +39,9 @@ class App extends Component {
     body:JSON.stringify(body)
   })
   .then(response => response.json())
+  .then(data => {
+    this.setCurrentTime(data.time);
+  })
   .catch(error => console.log(error))
   }
 
@@ -91,14 +94,14 @@ class App extends Component {
       alert('INVALID NUMBER: Please enter an integer for worker nodes input.')
       event.preventDefault();
     } else {
-      alert('A hash of <' + this.state.hashValue + '> was submitted with ' + this.state.nodeValue + ' worker nodes.');
-      alert('> this is where i would send this tuple to master server: ' + [this.state.hashValue, this.state.nodeValue]);
+      // alert('A hash of <' + this.state.hashValue + '> was submitted with ' + this.state.nodeValue + ' worker nodes.');
+      // alert('> this is where i would send this tuple to master server: ' + [this.state.hashValue, this.state.nodeValue]);
       event.preventDefault();
     }
 
     this.insertArticle(this.state.hashValue, this.state.nodeValue);
 
-    this.useEffect();
+    // this.useEffect();
   }
 
   render() {
