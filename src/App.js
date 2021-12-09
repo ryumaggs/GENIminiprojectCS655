@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
-import logo from './logo.svg';
 import passkey from './passkey.svg'
 import './App.css';
 
@@ -11,7 +9,7 @@ class App extends Component {
     this.state = {
       hashValue: '',
       nodeValue: '',
-      currentTime: 0
+      decryptedPass: ""
     }
 
     this.handleHashChange = this.handleHashChange.bind(this);
@@ -20,18 +18,12 @@ class App extends Component {
     this.handleSubmit2 = this.handleSubmit2.bind(this);
   }
 
-  setCurrentTime(time) {
-    this.setState({currentTime: time})
+  setDecryptedPass(decryptedP) {
+    this.setState({decryptedPass: decryptedP})
   }
 
-  // useEffect() {
-  //   fetch('/time').then(res => res.json()).then(data => {
-  //     this.setCurrentTime(data.time);
-  //   });
-  // };
-
-  InsertArticle(body){
-    return fetch(`http://localhost:3000/time`,{
+  SendData(body){
+    return fetch(`http://localhost:3000/decrypt`,{
         'method':'POST',
         headers : {
           'Content-Type':'application/json'
@@ -40,15 +32,13 @@ class App extends Component {
   })
   .then(response => response.json())
   .then(data => {
-    this.setCurrentTime(data.time);
+    this.setDecryptedPass(data.dpass);
   })
   .catch(error => console.log(error))
   }
 
-  insertArticle(hash, num) {
-    this.InsertArticle({hash,num})
-    // .then((response) => props.insertedArticle(response))
-    // .catch(error => console.log('error',error))
+  sendData(hash, num) {
+    this.SendData({hash,num})
   }
 
   handleHashChange(event) {
@@ -94,14 +84,11 @@ class App extends Component {
       alert('INVALID NUMBER: Please enter an integer for worker nodes input.')
       event.preventDefault();
     } else {
-      // alert('A hash of <' + this.state.hashValue + '> was submitted with ' + this.state.nodeValue + ' worker nodes.');
-      // alert('> this is where i would send this tuple to master server: ' + [this.state.hashValue, this.state.nodeValue]);
+      // success
       event.preventDefault();
     }
 
-    this.insertArticle(this.state.hashValue, this.state.nodeValue);
-
-    // this.useEffect();
+    this.sendData(this.state.hashValue, this.state.nodeValue);
   }
 
   render() {
@@ -109,20 +96,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={passkey} className="App-logo" alt="logo" />
-          {/* <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p> */}
           <h1>Passcracker</h1>
-          {/* <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a> */}
           <div className="Form">
-            {/* <p>test</p> */}
             <form>
               <label>
                 MD5 hash: 
@@ -135,7 +110,7 @@ class App extends Component {
               <button id="buttonWork" type="submit" name="submitWork" onClick={this.handleSubmit1}>Change number of workers</button>
               <button id="buttonFull" type="submit" name="submitFull" onClick={this.handleSubmit2}>Submit job</button>
             </form>
-            <p>The current time is {this.state.currentTime}.</p>
+            <p>The decrypted password is: {this.state.decryptedPass}</p>
           </div>
         </header>
       </div>

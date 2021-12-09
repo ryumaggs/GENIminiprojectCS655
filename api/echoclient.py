@@ -16,7 +16,7 @@ import select
 # @app.route('/time', methods=["POST"], strict_slashes=False)
 def solve(hash, num):
 	#variables that need to be set: int
-	print('hi it works')
+	# print('hi it works')
 	# num = request.json['num']
 	# hash = request.json['hash']
 	NUM_WORKERS = int(num)
