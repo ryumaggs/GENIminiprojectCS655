@@ -58,6 +58,8 @@ while True:
 	cur_str = create_batch(GLOBAL_STARTING, cur_batch, cur_batch_status, capitalized, NUM_JOBS_IN_BATCH)
 	cur_batch_pointer = 0
 
+	start = time.time()
+
 	#connection setup
 	for i in range(MAX_WORKERS):
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -129,3 +131,5 @@ while True:
 	for i in range(NUM_WORKERS):
 		WORKER_TRACKER[i].sendall(bytes("tt","utf-8"))
 	#inf loop, loop over
+	end = time.time()
+	print("Total time elapsed: ", end-start)
