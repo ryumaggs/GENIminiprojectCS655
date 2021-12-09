@@ -32,7 +32,7 @@ def solve(hash, num):
 	WORKER_TRACKER = {}
 	WEBSERVER_HOST = '127.0.0.1'
 	WEBSERVER_PORT = 59999
-	HOST = ['127.0.0.1','127.0.0.1', '127.0.0.1', '127.0.0.1']  # The server's hostname or IP address
+	HOST = ['w1','w2', 'w3', 'w4']  # The server's hostname or IP address
 	PORT = [60000,60001, 60002, 60003]       # The port used by the server
 	GLOBAL_STARTING = "AAAAA"
 	GLOBAL_ENDING = "ZZZZZ"

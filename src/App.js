@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   SendData(body){
-    return fetch(`http://localhost:3000/decrypt`,{
+    return fetch(`http://204.102.244.53:3000/decrypt`,{
         'method':'POST',
         headers : {
           'Content-Type':'application/json'
@@ -62,7 +62,7 @@ class App extends Component {
   }
 
   ChangeNumber(body){
-    return fetch(`http://localhost:3000/change`,{
+    return fetch(`http://204.102.244.53:3000/change`,{
         'method':'POST',
         headers : {
           'Content-Type':'application/json'
