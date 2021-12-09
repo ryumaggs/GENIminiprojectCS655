@@ -6,17 +6,23 @@ Actually. I don't even need to do any threading or multiprocessing.
 
 Just have one function that connects to all workers and stores it in a variable
 '''
+# from __main__ import app
+
 import socket
 import time
 from util import create_batch, checkrange, increment, shift
 import select
 
-def solve():
+# @app.route('/time', methods=["POST"], strict_slashes=False)
+def solve(hash, num):
 	#variables that need to be set: int
-	NUM_WORKERS = 0
+	print('hi it works')
+	# num = request.json['num']
+	# hash = request.json['hash']
+	NUM_WORKERS = int(num)
 
 	#str: the md5 hash that needs to be solved
-	GLOBAL_SOLUTION = None 
+	GLOBAL_SOLUTION = str(hash)
 
 	#global variables
 	worker_txt_path = "./num_worker.txt"
