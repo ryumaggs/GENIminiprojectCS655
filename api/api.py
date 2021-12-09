@@ -8,15 +8,17 @@ from echoclienttext import to_text
 
 @app.route('/time', methods=["POST"], strict_slashes=False)
 def get_current_time():
-    hash = request.json['hash']
+    hashs = request.json['hash']
     num = request.json['num']
-    print(hash)
+    print(hashs)
     print(num)
-    solve(hash, num)
-    # print("Hello World")
+    ret = solve(hashs, num)
+    print("ret: ", ret)
     # return {'time': time.time()}
+    return {'time': ret}
 
 @app.route('/change', methods=['POST'])
 def get_current_time2():
     num = request.json['num']
     to_text(num) 
+    return {'hi': True}

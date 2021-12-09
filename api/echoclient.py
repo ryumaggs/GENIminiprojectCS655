@@ -24,6 +24,7 @@ def solve(hash, num):
 	#str: the md5 hash that needs to be solved
 	GLOBAL_SOLUTION = str(hash)
 
+	found_solution = ""
 	#global variables
 	worker_txt_path = "./num_worker.txt"
 	MAX_WORKERS = 4
@@ -103,8 +104,17 @@ def solve(hash, num):
 		#check textfile here
 		i_file = open("./num_worker.txt",'r')
 		line = i_file.readline()
-		NUM_WORKERS = int(line)
+		try:
+			NUM_WORKERS = int(line)
+		except ValueError:
+			NUM_WORKERS = 4
 		i_file.close()
+		on_off = []
+		for iii in range(NUM_WORKERS):
+			on_off.append(1)
+		for iii in range(MAX_WORKERS-NUM_WORKERS):
+			on_off.append(0)
+		#print("new num worker: ", on_off)
 
 		'''
 		ready = select.select([WEBSERVER_s], [], [], 0.000001)
@@ -132,7 +142,8 @@ def solve(hash, num):
 			splitt = data_str.split(',')
 			if splitt[0] == "T":
 				print("Answer found: ", splitt[1])
-				WEBSERVER_s.sendall(bytes("Answer found,"+splitt[1],"utf-8"))
+				found_solution = splitt[1]
+				#WEBSERVER_s.sendall(bytes("Answer found,"+splitt[1],"utf-8"))
 				break
 
 		if on_off[i] == 1:
@@ -151,8 +162,12 @@ def solve(hash, num):
 			i = 0
 
 	#close connections once answer is found
-	for i in range(NUM_WORKERS):
+	for i in range(MAX_WORKERS):
+		print("i: ", i)
 		WORKER_TRACKER[i].sendall(bytes("tt","utf-8"))
 	stop = time.time()
 	print(stop - start)
 	#inf loop, loop over
+	time.sleep(5)
+
+	return found_solution
