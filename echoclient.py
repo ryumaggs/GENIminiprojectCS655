@@ -61,7 +61,7 @@ while True:
 	#connection setup
 	for i in range(MAX_WORKERS):
 		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		s.settimeout(10)
+		s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 		s.connect((HOST[i], PORT[i]))
 		#s.setblocking(0)
 		WORKER_TRACKER[i] = s
