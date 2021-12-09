@@ -55,9 +55,9 @@ while True:
         if typee == 0:
             res,stringg = checkrange(starting_str,ending_str, correct_str, capitalized)
             if res:
-                conn.sendall(bytes("T,"+stringg,"utf-8"))
+                conn.sendall(("T,"+stringg).encode("utf-8"))
             else:
-                conn.sendall(bytes("F,"+stringg,"utf-8"))
+                conn.sendall(("F,"+stringg).encode("utf-8"))
 
             if len(old_results) < 1000:
                 old_results.append((starting_str,ending_str,res))
