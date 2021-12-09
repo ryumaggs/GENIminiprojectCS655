@@ -16,7 +16,8 @@ class App extends Component {
 
     this.handleHashChange = this.handleHashChange.bind(this);
     this.handleNodeChange = this.handleNodeChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit1 = this.handleSubmit1.bind(this);
+    this.handleSubmit2 = this.handleSubmit2.bind(this);
   }
 
   setCurrentTime(time) {
@@ -32,9 +33,9 @@ class App extends Component {
   InsertArticle(body){
     return fetch(`http://localhost:3000/time`,{
         'method':'POST',
-         headers : {
-        'Content-Type':'application/json'
-    },
+        headers : {
+          'Content-Type':'application/json'
+        },
     body:JSON.stringify(body)
   })
   .then(response => response.json())
@@ -55,7 +56,31 @@ class App extends Component {
     this.setState({nodeValue: event.target.value})
   }
 
-  handleSubmit(event) {
+  handleSubmit1(event) {
+    event.preventDefault();
+    this.changeNumber(this.state.nodeValue);
+    // this.useEffect
+  }
+
+  changeNumber(num) {
+    this.ChangeNumber({num})
+    // .then((response) => props.insertedArticle(response))
+    // .catch(error => console.log('error',error))
+  }
+
+  ChangeNumber(body){
+    return fetch(`http://localhost:3000/change`,{
+        'method':'POST',
+        headers : {
+          'Content-Type':'application/json'
+        },
+    body:JSON.stringify(body)
+  })
+  .then(response => response.json())
+  .catch(error => console.log(error))
+  }
+
+  handleSubmit2(event) {
     // Regular expression to check if string is a MD5 hash
     const regexExp = /^[a-f0-9]{32}$/gi;
 
@@ -95,7 +120,7 @@ class App extends Component {
           </a> */}
           <div className="Form">
             {/* <p>test</p> */}
-            <form onSubmit={this.handleSubmit}>
+            <form>
               <label>
                 MD5 hash: 
                 <input type="text" name="hashLabel" size='28' value={this.state.hashValue} onChange={this.handleHashChange} />
@@ -104,7 +129,8 @@ class App extends Component {
                 Number of worker nodes:
                 <input type="text" name="nodeLabel" size='1' value={this.state.nodeLabel} onChange={this.handleNodeChange} />
               </label>
-              <input type="submit" value="Submit" />
+              <button id="buttonWork" type="submit" name="submitWork" onClick={this.handleSubmit1}>Change number of workers</button>
+              <button id="buttonFull" type="submit" name="submitFull" onClick={this.handleSubmit2}>Submit job</button>
             </form>
             <p>The current time is {this.state.currentTime}.</p>
           </div>

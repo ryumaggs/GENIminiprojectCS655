@@ -54,3 +54,13 @@ input {
     transform: rotate(360deg);
   }
 }
+
+#buttonWork {
+  background-color: blue;
+  color: white;
+}
+
+#buttonFull {
+  background-color: red;
+  color: white;
+}
