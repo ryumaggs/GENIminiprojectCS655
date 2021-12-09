@@ -1,14 +1,13 @@
 # GENIminiprojectCS655
 
-echoclient.py - code for the master
-echoserver.py - code for each individual worker
+api/echoclient.py - code for the master
+api/echoserver.py - code for each individual worker
 
 How to run:
-  1. Get echoserver.py on each worker machine
-  2. get echoclient.py on the master machine
-  3. On each worker machine:
-    a. adjust IP to worker machine IP in echoserver.py (or just use local for local testing)
-    b. open terminal and navigate to echoserver.py. Run the following commandline: python echoserver.py <port_num>
+  1. Clone repo one very master and worker node
+  2. On the master machine:
+    a. run the setup shell file to download all necessary dependencies
+    b. 
     c. update echoclient.py on master machine with ip and port num
   4. Once all worker machines are up and running
   5. Navigate to echoclient.py on master machine, run: python echoclient.py
