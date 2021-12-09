@@ -99,7 +99,7 @@ def solve():
 		NUM_WORKERS = int(line)
 		i_file.close()
 
-
+		'''
 		ready = select.select([WEBSERVER_s], [], [], 0.000001)
 		if ready[0]:
 			dat = WEBSERVER_s.recv(1028)
@@ -116,6 +116,7 @@ def solve():
 					on_off.append(0)
 				print("new num worker: ", on_off)
 				WEBSERVER_s.sendall(bytes("workers changed","utf-8"))
+		'''
 
 		ready = select.select([WORKER_TRACKER[i]], [], [], 0.01)
 		if ready[0]:
